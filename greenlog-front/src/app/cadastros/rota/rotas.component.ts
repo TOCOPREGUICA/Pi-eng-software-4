@@ -23,6 +23,7 @@ import { Caminhao } from '../caminhao/caminhao.service';
 })
 export class RotasComponent implements OnInit {
 
+  selectedCaminhao: Caminhao | null = null;
   caminhao = '';
   data: string = new Date().toISOString().slice(0, 10);
   origem = '';
@@ -33,7 +34,7 @@ export class RotasComponent implements OnInit {
 
   mostrarModal = false;
   termoBusca = '';
-  caminhoes: any[] = []; // ← substituído null por lista vazia
+  caminhoes: any[] = []; 
 
   constructor(private rotasService: RotasService) {}
 
@@ -51,31 +52,37 @@ export class RotasComponent implements OnInit {
   }
 
   salvar(): void {
-    const rota = new Rota(this.caminhao, new Date(this.data).toISOString(), this.origem, this.destino);
-
-    if (this.idEditando !== null) {
-      this.rotasService.atualizarRotas(this.idEditando, rota).subscribe(() => {
-        alert('Rota atualizada com sucesso!');
-        this.limparCampos();
-        this.listar();
-      });
-    } else {
-      this.rotasService.adicionarRotas(rota).subscribe(() => {
-        alert('Rota salva com sucesso!');
-        this.limparCampos();
-        this.listar();
-      });
-    }
+  if (!this.selectedCaminhao) {
+    alert('Selecione um caminhão!');
+    return;
   }
+
+  const rota = new Rota(this.selectedCaminhao, new Date(this.data).toISOString(), this.origem, this.destino);
+
+  if (this.idEditando !== null) {
+    this.rotasService.atualizarRotas(this.idEditando, rota).subscribe(() => {
+      alert('Rota atualizada com sucesso!');
+      this.limparCampos();
+      this.listar();
+    });
+  } else {
+    this.rotasService.adicionarRotas(rota).subscribe(() => {
+      alert('Rota salva com sucesso!');
+      this.limparCampos();
+      this.listar();
+    });
+  }
+}
 
   editar(rota: Rota, id: number | undefined): void {
-    if (id === undefined) return;
-    this.caminhao = rota.caminhao;
-    this.data = rota.data.slice(0, 10);
-    this.origem = rota.origem;
-    this.destino = rota.destino;
-    this.idEditando = id;
-  }
+  if (id === undefined) return;
+  this.selectedCaminhao = rota.caminhao;
+  this.caminhao = `${rota.caminhao.placa} (${rota.caminhao.residuos})`;
+  this.data = rota.data.slice(0, 10);
+  this.origem = rota.origem;
+  this.destino = rota.destino;
+  this.idEditando = id;
+}
 
   excluir(id: number | undefined): void {
     if (id === undefined) return;
@@ -89,13 +96,14 @@ export class RotasComponent implements OnInit {
 
   // ================== Utilitários ==================
   limparCampos(): void {
-    this.caminhao = '';
-    this.data = new Date().toISOString().slice(0, 10);
-    this.origem = '';
-    this.destino = '';
-    this.idEditando = null;
-    this.fecharModal();
-  }
+  this.caminhao = '';
+  this.selectedCaminhao = null;
+  this.data = new Date().toISOString().slice(0, 10);
+  this.origem = '';
+  this.destino = '';
+  this.idEditando = null;
+  this.fecharModal();
+}
 
   // =============== Modal helpers ===================
   abrirModal(): void {
@@ -107,9 +115,10 @@ export class RotasComponent implements OnInit {
   }
 
   selecionarCaminhao(c: Caminhao): void {
-  this.caminhao = `${c.placa} (${c.residuos})`;
+  this.selectedCaminhao = c;
+  this.caminhao = `${c.placa} (${c.residuos})`; // apenas visual
   this.fecharModal();
-}
+  }
 
   // =============== Simula busca de caminhões ============
   buscarCaminhoes(): void {

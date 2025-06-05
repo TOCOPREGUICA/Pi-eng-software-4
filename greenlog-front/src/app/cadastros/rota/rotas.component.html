@@ -54,7 +54,7 @@
     </thead>
     <tbody>
         <tr *ngFor="let r of rotas">
-            <td>{{ r.caminhao }}</td>
+            <td>{{ r.caminhao.placa + ' (' + r.caminhao.residuos + ')' }}</td>
             <td>{{ r.data }}</td>
             <td>{{ r.origem }}</td>
             <td>{{ r.destino }}</td>

@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.util.Date;
@@ -20,20 +22,23 @@ import java.util.Date;
 @Entity
 @Table(name = "rotas")
 public class Rota {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rota_seq")
     @SequenceGenerator(name = "rota_seq", sequenceName = "rotas_SEQ", allocationSize = 1)
     private Integer id;
-    private String caminhao;
+
+    @ManyToOne
+    @JoinColumn(name = "caminhao_id", referencedColumnName = "id") // chave estrangeira
+    private Caminhao caminhao;
+
     private Date data;
     private String origem;
     private String destino;
 
-    public Rota(){
-    }
+    public Rota() {}
 
-    public Rota(Integer id, String caminhao, Date data, String origem, String destino) {
+    public Rota(Integer id, Caminhao caminhao, Date data, String origem, String destino) {
         this.id = id;
         this.caminhao = caminhao;
         this.data = data;
@@ -41,11 +46,11 @@ public class Rota {
         this.destino = destino;
     }
 
-    public String getCaminhao() {
+    public Caminhao getCaminhao() {
         return caminhao;
     }
 
-    public void setCaminhao(String caminhao) {
+    public void setCaminhao(Caminhao caminhao) {
         this.caminhao = caminhao;
     }
 
@@ -80,5 +85,4 @@ public class Rota {
     public void setId(Integer id) {
         this.id = id;
     }
-
 }
