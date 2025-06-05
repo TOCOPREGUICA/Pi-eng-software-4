@@ -1,0 +1,128 @@
+<div class="form-container">
+  <h2>{{ idEditando !== null ? 'Editar' : 'Cadastro de' }} Ponto de Coleta</h2>
+
+  <form (ngSubmit)="onSubmit(pontoColetaForm)" #pontoColetaForm="ngForm">
+    <div class="form-group">
+      <label for="bairroId">Bairro:</label>
+      <input id="bairroId" name="bairroId" type="number" [(ngModel)]="pontoColetaAtual.bairroId" placeholder="ID do Bairro (temporário)" required #bairroIdInput="ngModel"
+             [ngClass]="{ 'invalid-input': bairroIdInput.invalid && (bairroIdInput.dirty || bairroIdInput.touched) }">
+      <div *ngIf="bairroIdInput.invalid && (bairroIdInput.dirty || bairroIdInput.touched)" class="error-message">
+        <small *ngIf="bairroIdInput.errors?.['required']">Bairro é obrigatório.</small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="nome">Nome do Ponto:</label>
+      <input id="nome" name="nome" [(ngModel)]="pontoColetaAtual.nome" type="text" placeholder="Ex: Centro Comunitário" required minlength="3" #nomeInput="ngModel"
+             [ngClass]="{ 'invalid-input': nomeInput.invalid && (nomeInput.dirty || nomeInput.touched) }">
+      <div *ngIf="nomeInput.invalid && (nomeInput.dirty || nomeInput.touched)" class="error-message">
+        <small *ngIf="nomeInput.errors?.['required']">Nome é obrigatório.</small>
+        <small *ngIf="nomeInput.errors?.['minlength']">Nome deve ter no mínimo 3 caracteres.</small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="responsavel">Responsável:</label> <input id="responsavel" name="responsavel" [(ngModel)]="pontoColetaAtual.responsavel" type="text" placeholder="Nome completo do responsável" required minlength="3" #respInput="ngModel"
+             [ngClass]="{ 'invalid-input': respInput.invalid && (respInput.dirty || respInput.touched) }">
+      <div *ngIf="respInput.invalid && (respInput.dirty || respInput.touched)" class="error-message">
+        <small *ngIf="respInput.errors?.['required']">Responsável é obrigatório.</small>
+        <small *ngIf="respInput.errors?.['minlength']">Responsável deve ter no mínimo 3 caracteres.</small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="telefoneResponsavel">Telefone do Responsável:</label>
+      <input id="telefoneResponsavel" name="telefoneResponsavel" [(ngModel)]="pontoColetaAtual.telefoneResponsavel" type="text" placeholder="Ex: (62) 99999-9999">
+    </div>
+
+    <div class="form-group">
+      <label for="emailResponsavel">Email do Responsável:</label>
+      <input type="email" placeholder="Ex: email@dominio.com"
+       name="emailResponsavel"
+       [(ngModel)]="pontoColetaAtual.emailResponsavel"
+       #email="ngModel"
+       required
+       class="form-control" />
+      <div *ngIf="email.invalid && email.touched" class="text-danger">
+        Por favor, informe um e-mail válido.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="endereco">Endereço:</label>
+      <input id="endereco" name="endereco" [(ngModel)]="pontoColetaAtual.endereco" type="text" placeholder="Ex: Rua X, Qd. Y, Lt. Z, Setor W">
+    </div>
+
+    <div class="form-group">
+      <label for="horarioFuncionamento">Horário de Funcionamento:</label>
+      <input id="horarioFuncionamento" name="horarioFuncionamento" [(ngModel)]="pontoColetaAtual.horarioFuncionamento" type="text" placeholder="Ex: Seg-Sex 08:00-18:00">
+    </div>
+
+    <div class="form-group">
+      <label>Tipos de Resíduos Aceitos: (Selecione ao menos um)</label>
+      <div class="checkbox-group">
+        <div *ngFor="let tipo of opcoesTiposResiduos" class="checkbox-item">
+          <input type="checkbox"
+                 id="tipo-{{tipo}}"
+                 name="tipo-{{tipo}}"
+                 [value]="tipo"
+                 [checked]="tiposResiduosSelecionados[tipo]"
+                 (change)="onTipoResiduoChange(tipo, $event)">
+          <label class="checkbox-label" for="tipo-{{tipo}}">{{ tipo }}</label>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="mensagemErro" class="error-message api-error">
+      {{ mensagemErro }}
+    </div>
+    <div *ngIf="mensagemSucesso" class="success-message api-success">
+      {{ mensagemSucesso }}
+    </div>
+
+    <div class="button-group">
+      <button type="submit" class="btn salvar" [disabled]="pontoColetaForm.invalid || pontoColetaAtual.tiposResiduosAceitos.length === 0">
+        💾 {{ idEditando !== null ? 'Atualizar' : 'Salvar' }}
+      </button>
+      <button type="button" *ngIf="idEditando !== null" class="btn cancelar" (click)="finalizarEdicao(pontoColetaForm)">
+        ❌ Cancelar Edição
+      </button>
+    </div>
+  </form>
+</div>
+
+<hr />
+<h3>Pontos de Coleta Cadastrados:</h3>
+
+<table class="tabela-dados"> <thead>
+    <tr>
+      <th>ID Bairro</th>
+      <th>Nome</th>
+      <th>Responsável</th>
+      <th>Telefone</th>
+      <th>Email</th>
+      <th>Endereço</th>
+      <th>Funcionamento</th>
+      <th>Tipos Resíduos</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let pc of pontosColeta">
+      <td>{{ pc.bairroId }}</td> <td>{{ pc.nome }}</td>
+      <td>{{ pc.responsavel }}</td>
+      <td>{{ pc.telefoneResponsavel }}</td>
+      <td>{{ pc.emailResponsavel }}</td>
+      <td>{{ pc.endereco }}</td>
+      <td>{{ pc.horarioFuncionamento }}</td>
+      <td>{{ pc.tiposResiduosAceitos.join(', ') }}</td>
+      <td>
+        <button class="btn editar" (click)="editarPontoColeta(pc)">✏️ Editar</button>
+        <button class="btn excluir" (click)="excluirPontoColeta(pc.id)">🗑️ Excluir</button>
+      </td>
+    </tr>
+    <tr *ngIf="pontosColeta.length === 0">
+        <td colspan="9" style="text-align: center;">Nenhum ponto de coleta cadastrado.</td>
+    </tr>
+  </tbody>
+</table>
