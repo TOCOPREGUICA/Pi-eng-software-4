@@ -3,17 +3,26 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Rota } from './rotas.model';
 import { RotasService } from './rotas.service';
-import { TopbarComponent } from "../../padronizacao/topbar/topbar.component";
-import { SidebarComponent } from "../../padronizacao/sidebar/sidebar.component";
+import { TopbarComponent } from '../../padronizacao/menu/topbar/topbar.component';
+import { SidebarComponent } from '../../padronizacao/menu/sidebar/sidebar.component';
+import { ModalCaminhaoComponent } from '../../padronizacao/modal/modal-caminhao/modal-caminhao.component';
+import { Caminhao } from '../caminhao/caminhao.service';
 
 @Component({
   selector: 'app-rotas',
   standalone: true,
-  imports: [CommonModule, FormsModule, TopbarComponent, SidebarComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    TopbarComponent,
+    SidebarComponent,
+    ModalCaminhaoComponent 
+  ],
   templateUrl: './rotas.component.html',
   styleUrls: ['./rotas.component.css']
 })
 export class RotasComponent implements OnInit {
+
   caminhao = '';
   data: string = new Date().toISOString().slice(0, 10);
   origem = '';
@@ -22,20 +31,20 @@ export class RotasComponent implements OnInit {
 
   rotas: Rota[] = [];
 
-  //implementar o termo de busca
   mostrarModal = false;
   termoBusca = '';
-  caminhoes = null;
+  caminhoes: any[] = []; // ← substituído null por lista vazia
 
   constructor(private rotasService: RotasService) {}
 
   // ================== Ciclo de vida ==================
   ngOnInit(): void {
     this.listar();
+    this.buscarCaminhoes();
   }
 
   // ================== CRUD ==================
-listar() {
+  listar(): void {
     this.rotasService.getRotas().subscribe((data) => {
       this.rotas = data;
     });
@@ -44,7 +53,7 @@ listar() {
   salvar(): void {
     const rota = new Rota(this.caminhao, new Date(this.data).toISOString(), this.origem, this.destino);
 
-     if (this.idEditando !== null) {
+    if (this.idEditando !== null) {
       this.rotasService.atualizarRotas(this.idEditando, rota).subscribe(() => {
         alert('Rota atualizada com sucesso!');
         this.limparCampos();
@@ -60,16 +69,15 @@ listar() {
   }
 
   editar(rota: Rota, id: number | undefined): void {
-    console.log(id);
     if (id === undefined) return;
     this.caminhao = rota.caminhao;
     this.data = rota.data.slice(0, 10);
     this.origem = rota.origem;
     this.destino = rota.destino;
-    this.idEditando = id
+    this.idEditando = id;
   }
 
-  excluir(id: number | undefined) {
+  excluir(id: number | undefined): void {
     if (id === undefined) return;
     if (confirm('Tem certeza que deseja excluir esta Rota?')) {
       this.rotasService.excluirRotas(id).subscribe(() => {
@@ -86,13 +94,26 @@ listar() {
     this.origem = '';
     this.destino = '';
     this.idEditando = null;
+    this.fecharModal();
   }
 
   // =============== Modal helpers ===================
-  abrirModal(): void { this.mostrarModal = true; }
-  fecharModal(): void { this.mostrarModal = false; }
-  selecionarCaminhao(c: { placa: string; residuo: string }): void {
-    this.caminhao = `${c.placa} (${c.residuo})`;
-    this.fecharModal();
+  abrirModal(): void {
+    this.mostrarModal = true;
+  }
+
+  fecharModal(): void {
+    this.mostrarModal = false;
+  }
+
+  selecionarCaminhao(c: Caminhao): void {
+  this.caminhao = `${c.placa} (${c.residuos})`;
+  this.fecharModal();
+}
+
+  // =============== Simula busca de caminhões ============
+  buscarCaminhoes(): void {
+    // Exemplo de mock, substitua por chamada a serviço real se houver
+    this.caminhoes = [];
   }
 }

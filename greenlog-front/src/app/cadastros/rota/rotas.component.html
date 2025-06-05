@@ -6,42 +6,17 @@
 
     <div class="form-group">
         <label for="caminhao">Caminhão:</label>
-        <input id="caminhao" [(ngModel)]="caminhao" type="text" placeholder="Clique para buscar caminhão"(click)="abrirModal()" readonly/>
+        <input id="caminhao" [(ngModel)]="caminhao" type="text" placeholder="Clique para buscar caminhão" readonly 
+        (click)="abrirModal()"/>
     </div>
-
-    <!--            (click)="abrirModal()" readonly  -->
-
-    <!-- MODAL DE CAMINHÃO -->
-    <div class="modal-overlay" *ngIf="mostrarModal">
-        <div class="modal">
-            <h3>Buscar Caminhão</h3>
-
-            <input type="text" [(ngModel)]="termoBusca" placeholder="Buscar por placa, ID ou tipo de resíduo" />
-
-            <table class="tabela-caminhao">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Placa</th>
-                        <th>Tipo de Resíduo</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let c of caminhoes">
-                        <td>{{ c.id }}</td>
-                        <td>{{ c.placa }}</td>
-                        <td>{{ c.residuo }}</td>
-                        <td><button class="btn salvar" (click)="selecionarCaminhao(c)">Selecionar</button></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div style="text-align: right; margin-top: 10px;">
-                <button class="btn cancelar" (click)="fecharModal()">Fechar</button>
-            </div>
-        </div>
-    </div>
+    
+<app-modal-caminhao
+  *ngIf="mostrarModal"
+  [(termoBusca)]="termoBusca"
+  [mostrar]="mostrarModal"
+  (selecionar)="selecionarCaminhao($event)"
+  (fechar)="fecharModal()"
+/>
 
     <div class="form-group">
         <label for="data">Data:</label>

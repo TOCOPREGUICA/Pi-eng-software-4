@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { PontoColeta } from './ponto-coleta.model';
 import { PontoColetaService } from './ponto-coleta.service';
-import { TopbarComponent } from "../../padronizacao/topbar/topbar.component";
-import { SidebarComponent } from "../../padronizacao/sidebar/sidebar.component";
+import { TopbarComponent } from "../../padronizacao/menu/topbar/topbar.component";
+import { SidebarComponent } from "../../padronizacao/menu/sidebar/sidebar.component";
 
 @Component({
   selector: 'app-pontos-coleta',

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
-import { LayoutService } from './padronizacao/layout.service';
+import { LayoutService } from './padronizacao/menu/layout.service';
 
 @Component({
   selector: 'app-root',
