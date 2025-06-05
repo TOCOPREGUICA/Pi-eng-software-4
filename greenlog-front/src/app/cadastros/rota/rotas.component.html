@@ -7,15 +7,15 @@
     <div class="form-group">
         <label for="caminhao">Caminhão:</label>
         <input id="caminhao" [(ngModel)]="caminhao" type="text" placeholder="Clique para buscar caminhão" readonly 
-        (click)="abrirModal()"/>
+        (click)="abrirModalCaminhao()"/>
     </div>
     
 <app-modal-caminhao
-  *ngIf="mostrarModal"
-  [(termoBusca)]="termoBusca"
-  [mostrar]="mostrarModal"
+  *ngIf="mostrarModalCaminhao"
+  [(termoBuscaCaminhao)]="termoBuscaCaminhao"
+  [mostrarCaminhao]="mostrarModalCaminhao"
   (selecionar)="selecionarCaminhao($event)"
-  (fechar)="fecharModal()"
+  (fechar)="fecharModalCaminhao()"
 />
 
     <div class="form-group">
@@ -25,13 +25,34 @@
 
     <div class="form-group">
         <label for="origem">Origem:</label>
-        <input id="origem" [(ngModel)]="origem" type="text" placeholder="Digite a origem" />
+        <input id="origem" [(ngModel)]="origem" type="text" placeholder="Digite a origem" readonly 
+        (click)="abrirModalOrigem()"/>
     </div>
+    
+<app-modal-origem-destino
+  *ngIf="mostrarModalOrigem"
+  [(termoBuscaOrigemDestino)]="termoBuscaOrigem"
+  [mostrarOrigemDestino]="mostrarModalOrigem"
+  (selecionar)="selecionarOrigem($event)"
+  (fechar)="fecharModalOrigem()"
+/>
+
 
     <div class="form-group">
         <label for="destino">Destino:</label>
-        <input id="destino" [(ngModel)]="destino" type="text" placeholder="Digite o destino" />
+        <input id="destino" [(ngModel)]="destino" type="text" placeholder="Clique para buscar destino" readonly
+        (click)="abrirModalDestino()"/>
     </div>
+    
+<app-modal-origem-destino
+  *ngIf="mostrarModalDestino"
+  [(termoBuscaOrigemDestino)]="termoBuscaDestino"
+  [mostrarOrigemDestino]="mostrarModalDestino"
+  [origemSelecionadaId]="selectedOrigem?.id ?? null"
+  (selecionar)="selecionarDestino($event)"
+  (fechar)="fecharModalDestino()"
+/>
+
 
     <div class="button-group">
         <button class="btn salvar" (click)="salvar()">💾 {{ idEditando !== null ? 'Atualizar' : 'Salvar' }}</button>
@@ -56,8 +77,8 @@
         <tr *ngFor="let r of rotas">
             <td>{{ r.caminhao.placa + ' (' + r.caminhao.residuos + ')' }}</td>
             <td>{{ r.data }}</td>
-            <td>{{ r.origem }}</td>
-            <td>{{ r.destino }}</td>
+            <td>{{ r.origem.nome + '('+ r.origem.tiposResiduosAceitos+ ')' }}</td>
+            <td>{{ r.destino.nome + '('+ r.destino.tiposResiduosAceitos+ ')'  }}</td>
             <td>
                 <button class="btn editar" (click)="editar(r,r.id)">✏️ Editar</button>
                 <button class="btn excluir" (click)="excluir(r.id)">🗑️ Excluir</button>
@@ -65,3 +86,4 @@
         </tr>
     </tbody>
 </table>
+

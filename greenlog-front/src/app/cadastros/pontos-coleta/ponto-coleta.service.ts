@@ -57,3 +57,5 @@ export class PontoColetaService {
     return throwError(() => new Error(errorMessage));
   }
 }
+
+export type { PontoColeta };

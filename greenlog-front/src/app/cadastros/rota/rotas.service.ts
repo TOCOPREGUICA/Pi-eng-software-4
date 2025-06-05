@@ -17,6 +17,7 @@ export class RotasService {
 }
 
   adicionarRotas(rota: Rota): Observable<void> {
+    console.log(rota);
     return this.http.post<void>(this.apiUrl, rota);
   }
 

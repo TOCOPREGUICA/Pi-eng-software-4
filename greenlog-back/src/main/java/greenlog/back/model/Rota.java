@@ -4,6 +4,7 @@
  */
 package greenlog.back.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,7 +14,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.util.Date;
-
 
 /**
  *
@@ -33,17 +33,26 @@ public class Rota {
     private Caminhao caminhao;
 
     private Date data;
-    private String origem;
-    private String destino;
+    
+    @ManyToOne
+    @JsonProperty("origem")
+    @JoinColumn(name = "pontos_coleta_origem_id", referencedColumnName = "id") // chave estrangeira
+    private PontoColeta pontoColetaOrigem;
+    
+    @ManyToOne
+    @JsonProperty("destino")
+    @JoinColumn(name = "pontos_coleta_destino_id", referencedColumnName = "id") // chave estrangeira
+    private PontoColeta pontoColetaDestino;
 
-    public Rota() {}
+    public Rota() {
+    }
 
-    public Rota(Integer id, Caminhao caminhao, Date data, String origem, String destino) {
+    public Rota(Integer id, Caminhao caminhao, Date data, PontoColeta pontoColetaDestino, PontoColeta pontoColetaOrigem) {
         this.id = id;
         this.caminhao = caminhao;
         this.data = data;
-        this.origem = origem;
-        this.destino = destino;
+        this.pontoColetaOrigem = pontoColetaOrigem;
+        this.pontoColetaDestino = pontoColetaDestino;
     }
 
     public Caminhao getCaminhao() {
@@ -61,23 +70,6 @@ public class Rota {
     public void setData(Date data) {
         this.data = data;
     }
-
-    public String getOrigem() {
-        return origem;
-    }
-
-    public void setOrigem(String origem) {
-        this.origem = origem;
-    }
-
-    public String getDestino() {
-        return destino;
-    }
-
-    public void setDestino(String destino) {
-        this.destino = destino;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -85,4 +77,22 @@ public class Rota {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public PontoColeta getPontoColetaOrigem() {
+        return pontoColetaOrigem;
+    }
+
+    public void setPontoColetaOrigem(PontoColeta pontoColetaOrigem) {
+        this.pontoColetaOrigem = pontoColetaOrigem;
+    }
+
+    public PontoColeta getPontoColetaDestino() {
+        return pontoColetaDestino;
+    }
+
+    public void setPontoColetaDestino(PontoColeta pontoColetaDestino) {
+        this.pontoColetaDestino = pontoColetaDestino;
+    }
+    
+    
 }

@@ -1,6 +1,12 @@
 <app-topbar></app-topbar>
 <app-sidebar></app-sidebar>
 
+<!-- Modal com o componente -->
+<app-bairros
+  [visivel]="mostrarModalBairros"
+  (fechado)="fecharModalBairros()">
+</app-bairros>
+
 <div class="form-container">
   <h2>{{ idEditando !== null ? 'Editar' : 'Cadastro de' }} Ponto de Coleta</h2>
 
@@ -9,6 +15,7 @@
       <label for="bairroId">Bairro:</label>
       <input id="bairroId" name="bairroId" type="number" [(ngModel)]="pontoColetaAtual.bairroId" placeholder="ID do Bairro (temporário)" required #bairroIdInput="ngModel"
              [ngClass]="{ 'invalid-input': bairroIdInput.invalid && (bairroIdInput.dirty || bairroIdInput.touched) }">
+      <button (click)="abrirModalBairros()" class="btn abrir-modal">➕ Cadastrar Bairros</button>
       <div *ngIf="bairroIdInput.invalid && (bairroIdInput.dirty || bairroIdInput.touched)" class="error-message">
         <small *ngIf="bairroIdInput.errors?.['required']">Bairro é obrigatório.</small>
       </div>

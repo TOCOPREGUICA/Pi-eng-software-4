@@ -80,9 +80,5 @@ export class ConexaoComponent implements OnInit{
     this.quilometros = 0;
     this.idEditando = null
   }
-  
-  //implementar o termo de busca
-  mostrarModal = false;
-  termoBusca = '';
-  
+   
 }

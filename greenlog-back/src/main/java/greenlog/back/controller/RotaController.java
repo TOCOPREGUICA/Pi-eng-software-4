@@ -34,6 +34,7 @@ public class RotaController {
 
     @PostMapping
     public void post(@RequestBody Rota rota) {
+        System.out.println(rota.getPontoColetaOrigem());
         rotasRepository.save(rota);
     }
 
@@ -42,8 +43,8 @@ public class RotaController {
         Rota rotaExistente = rotasRepository.findById(id).orElse(null);
         if (rotaExistente != null) {
             rotaExistente.setCaminhao(rotaAtualizada.getCaminhao());
-            rotaExistente.setOrigem(rotaAtualizada.getOrigem());
-            rotaExistente.setDestino(rotaAtualizada.getDestino());
+            rotaExistente.setPontoColetaOrigem(rotaAtualizada.getPontoColetaOrigem());
+            rotaExistente.setPontoColetaDestino(rotaAtualizada.getPontoColetaDestino());
             rotaExistente.setData(rotaAtualizada.getData());
             rotasRepository.save(rotaExistente);
         }

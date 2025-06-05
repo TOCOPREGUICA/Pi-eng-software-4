@@ -6,25 +6,26 @@ import { CaminhaoService, Caminhao } from '../../../cadastros/caminhao/caminhao.
 @Component({
   selector: 'app-modal-caminhao',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule], 
   templateUrl: './modal-caminhao.component.html',
   styleUrls: ['./modal-caminhao.component.css']
 })
 export class ModalCaminhaoComponent implements OnChanges {
-  @Input() mostrar: boolean = false;
-  @Input() termoBusca: string = '';
-  @Output() termoBuscaChange = new EventEmitter<string>();
+  @Input() mostrarCaminhao: boolean = false;
+  @Input() termoBuscaCaminhao: string = '';
+  @Output() termoBuscaCaminhaoChange = new EventEmitter<string>();
 
   @Output() selecionar = new EventEmitter<Caminhao>();
   @Output() fechar = new EventEmitter<void>();
 
   caminhoes: Caminhao[] = [];
   caminhoesFiltrados: Caminhao[] = [];
+  
 
   constructor(private caminhaoService: CaminhaoService) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['mostrar'] && this.mostrar) {
+    if (changes['mostrarCaminhao'] && this.mostrarCaminhao) {
       this.buscarCaminhoes();
     }
   }
@@ -37,13 +38,13 @@ export class ModalCaminhaoComponent implements OnChanges {
   }
 
   onTermoBuscaChange(valor: string) {
-    this.termoBusca = valor;
-    this.termoBuscaChange.emit(valor);
+    this.termoBuscaCaminhao = valor;
+    this.termoBuscaCaminhaoChange.emit(valor);
     this.aplicarFiltro();
   }
 
   aplicarFiltro() {
-    const termo = this.termoBusca.toLowerCase();
+    const termo = this.termoBuscaCaminhao.toLowerCase();
     this.caminhoesFiltrados = this.caminhoes.filter(
       c =>
         c.placa.toLowerCase().includes(termo) ||

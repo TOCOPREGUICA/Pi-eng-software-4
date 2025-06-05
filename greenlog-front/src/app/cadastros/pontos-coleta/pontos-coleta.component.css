@@ -136,3 +136,32 @@ h3 {
 .btn.cancelar:hover {
   background-color: #5a6268;
 }
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.25);
+}
+
+.btn.fechar {
+  background-color: #e74c3c;
+  color: white;
+  float: right;
+}
+

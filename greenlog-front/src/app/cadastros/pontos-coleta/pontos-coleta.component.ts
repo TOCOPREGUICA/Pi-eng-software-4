@@ -5,11 +5,13 @@ import { PontoColeta } from './ponto-coleta.model';
 import { PontoColetaService } from './ponto-coleta.service';
 import { TopbarComponent } from "../../padronizacao/menu/topbar/topbar.component";
 import { SidebarComponent } from "../../padronizacao/menu/sidebar/sidebar.component";
+import { CadastroBairrosService } from '../../padronizacao/modal/modal-cadastro-bairros/cadastro.bairros.service';
+import { BairrosComponent } from '../../padronizacao/modal/modal-cadastro-bairros/cadastro.bairros.component';
 
 @Component({
   selector: 'app-pontos-coleta',
   standalone: true,
-  imports: [CommonModule, FormsModule, TopbarComponent, SidebarComponent],
+  imports: [CommonModule, FormsModule, TopbarComponent, SidebarComponent, BairrosComponent],
   templateUrl: './pontos-coleta.component.html',
   styleUrls: ['./pontos-coleta.component.css']
 })
@@ -185,4 +187,14 @@ export class PontosColetaComponent implements OnInit {
     const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regexEmail.test(email);
   }
+
+mostrarModalBairros = false;
+
+abrirModalBairros() {
+  this.mostrarModalBairros = true;
+}
+
+fecharModalBairros() {
+  this.mostrarModalBairros = false;
+}
 }
