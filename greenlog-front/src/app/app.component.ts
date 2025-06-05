@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs';
+import { LayoutService } from './padronizacao/layout.service';
 
 @Component({
   selector: 'app-root',
@@ -12,4 +14,14 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'minha-app-angular';
+
+  constructor(private router: Router, private layoutService: LayoutService) {}
+
+  ngOnInit(): void {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.layoutService.setSidebar(false); // Fecha o sidebar em qualquer navegação
+      });
+  }
 }

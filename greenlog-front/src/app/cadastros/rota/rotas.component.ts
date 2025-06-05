@@ -3,11 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Rota } from './rotas.model';
 import { RotasService } from './rotas.service';
+import { TopbarComponent } from "../../padronizacao/topbar/topbar.component";
+import { SidebarComponent } from "../../padronizacao/sidebar/sidebar.component";
 
 @Component({
   selector: 'app-rotas',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TopbarComponent, SidebarComponent],
   templateUrl: './rotas.component.html',
   styleUrls: ['./rotas.component.css']
 })

@@ -3,11 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Conexao } from './conexao.modulo';
 import { ConexaoService } from './conexao.service';
+import { TopbarComponent } from "../../padronizacao/topbar/topbar.component";
+import { SidebarComponent } from "../../padronizacao/sidebar/sidebar.component";
 
 @Component({
   selector: 'app-conexao',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TopbarComponent, SidebarComponent],
   templateUrl: './conexao.component.html',
   styleUrl: './conexao.component.css'
 })
