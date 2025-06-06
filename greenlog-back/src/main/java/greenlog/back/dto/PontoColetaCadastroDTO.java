@@ -12,6 +12,8 @@ package greenlog.back.dto;
  * @brief Class PontoColetaCadastroDTO
  */
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import greenlog.back.model.Bairro;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -25,7 +27,8 @@ import java.util.List;
 public class PontoColetaCadastroDTO {
 
     @NotNull(message = "ID do Bairro é obrigatório")
-    private Long bairroId;
+    @JsonProperty("bairro")
+    private Bairro bairroId;
 
     @NotBlank(message = "Nome do ponto de coleta é obrigatório")
     @Size(min = 3, max = 100, message = "Nome deve ter entre 3 e 100 caracteres")

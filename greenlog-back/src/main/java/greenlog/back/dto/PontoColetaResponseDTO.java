@@ -12,6 +12,7 @@ package greenlog.back.dto;
  * @brief Class PontoColetaResponseDTO
  */
 
+import greenlog.back.model.Bairro;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PontoColetaResponseDTO {
     private Long id;
-    private Long bairroId;
+    private Bairro bairro;
     private String nome;
     private String responsavel;
     private String telefoneResponsavel;

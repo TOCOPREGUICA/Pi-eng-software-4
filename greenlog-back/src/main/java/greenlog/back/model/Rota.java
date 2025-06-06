@@ -57,7 +57,7 @@ public class Rota {
 
     public Caminhao getCaminhao() {
         return caminhao;
-    }
+    }   
 
     public void setCaminhao(Caminhao caminhao) {
         this.caminhao = caminhao;

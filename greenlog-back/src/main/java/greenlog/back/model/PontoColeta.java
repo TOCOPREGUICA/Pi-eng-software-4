@@ -12,6 +12,7 @@ package greenlog.back.model;
  * @brief Class PontoColeta
  */
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,8 +32,10 @@ public class PontoColeta {
     @SequenceGenerator(name = "pontos_coleta_id_seq", sequenceName = "pontos_coleta_id_SEQ", allocationSize = 1)
     private Long id;
 
-    @Column(name = "bairro_id") 
-    private Long bairroId; 
+    @ManyToOne
+    @JsonProperty("bairro")
+    @JoinColumn(name = "bairro_id", referencedColumnName = "id")
+    private Bairro bairroId; 
 
     @Column(nullable = false, unique = true, length = 100)
     private String nome;

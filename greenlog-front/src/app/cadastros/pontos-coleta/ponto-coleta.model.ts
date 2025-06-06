@@ -1,6 +1,8 @@
+import { Bairros } from "../../padronizacao/modal/modal-cadastro-bairros/cadastro.bairros.model";
+
 export interface PontoColeta {
   id?: number; 
-  bairroId: number | null;
+  bairro: Bairros | null;
   nome: string;
   responsavel: string;
   telefoneResponsavel?: string; 

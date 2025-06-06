@@ -1,1 +1,23 @@
-<p>modal-bairros works!</p>
+<input
+  type="text"
+  [ngModel]="termoBuscaBairros"
+  (ngModelChange)="onTermoBuscaChange($event)"
+  placeholder="Buscar por nome do ponto de coleta, tipo de residuos ou id"
+/>
+
+<table class="tabela-origem-destino">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Ação</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let b of bairrosFiltadros">
+      <td>{{ b.id }}</td>
+      <td>{{ b.nome }}</td>
+      <td><button class="btn salvar" (click)="onSelecionar(b)">Selecionar</button></td>
+    </tr>
+  </tbody>
+</table>

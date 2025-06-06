@@ -4,7 +4,7 @@
 <!-- Modal com o componente -->
 <app-bairros
   [visivel]="mostrarModalBairros"
-  (fechado)="fecharModalBairros()">
+  (fechado)="fecharBairros()">
 </app-bairros>
 
 <div class="form-container">
@@ -12,12 +12,21 @@
 
   <form (ngSubmit)="onSubmit(pontoColetaForm)" #pontoColetaForm="ngForm">
     <div class="form-group">
-      <label for="bairroId">Bairro:</label>
-      <input id="bairroId" name="bairroId" type="number" [(ngModel)]="pontoColetaAtual.bairroId" placeholder="ID do Bairro (temporário)" required #bairroIdInput="ngModel"
-             [ngClass]="{ 'invalid-input': bairroIdInput.invalid && (bairroIdInput.dirty || bairroIdInput.touched) }">
-      <button (click)="abrirModalBairros()" class="btn abrir-modal">➕ Cadastrar Bairros</button>
-      <div *ngIf="bairroIdInput.invalid && (bairroIdInput.dirty || bairroIdInput.touched)" class="error-message">
-        <small *ngIf="bairroIdInput.errors?.['required']">Bairro é obrigatório.</small>
+      <label for="bairro">Bairro:</label>
+      <input id="bairro" name="bairro" type="text" [(ngModel)]="pontoColetaAtual.bairro" placeholder="ID do Bairro (temporário)" required #bairroInput="ngModel" readonly 
+        (click)="abrirModalBairros()"
+             [ngClass]="{ 'invalid-input': bairroInput.invalid && (bairroInput.dirty || bairroInput.touched) }">
+
+      <app-modal-bairros
+      *ngIf="mostrarBairros"
+      [(termoBuscaBairros)]="termoBuscaBairros"
+      [mostrarBairros]="mostrarBairros"
+      (selecionar)="selecionarBairros($event)"
+      (fechar)="fecharModalBairros()"
+/>
+      <button (click)="abrirBairros()" class="btn abrir-modal">➕ Cadastrar Bairros</button>
+      <div *ngIf="bairroInput.invalid && (bairroInput.dirty || bairroInput.touched)" class="error-message">
+        <small *ngIf="bairroInput.errors?.['required']">Bairro é obrigatório.</small>
       </div>
     </div>
 
@@ -106,7 +115,7 @@
 
 <table class="tabela-dados"> <thead>
     <tr>
-      <th>ID Bairro</th>
+      <th>Bairro</th>
       <th>Nome</th>
       <th>Responsável</th>
       <th>Telefone</th>
@@ -119,7 +128,8 @@
   </thead>
   <tbody>
     <tr *ngFor="let pc of pontosColeta">
-      <td>{{ pc.bairroId }}</td> <td>{{ pc.nome }}</td>
+      <td>{{ pc.bairro?.nome }}</td> 
+      <td>{{ pc.nome }}</td>
       <td>{{ pc.responsavel }}</td>
       <td>{{ pc.telefoneResponsavel }}</td>
       <td>{{ pc.emailResponsavel }}</td>

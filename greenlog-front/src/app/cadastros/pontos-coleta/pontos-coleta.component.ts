@@ -5,17 +5,19 @@ import { PontoColeta } from './ponto-coleta.model';
 import { PontoColetaService } from './ponto-coleta.service';
 import { TopbarComponent } from "../../padronizacao/menu/topbar/topbar.component";
 import { SidebarComponent } from "../../padronizacao/menu/sidebar/sidebar.component";
-import { CadastroBairrosService } from '../../padronizacao/modal/modal-cadastro-bairros/cadastro.bairros.service';
 import { BairrosComponent } from '../../padronizacao/modal/modal-cadastro-bairros/cadastro.bairros.component';
+import { Bairros } from '../../padronizacao/modal/modal-cadastro-bairros/cadastro.bairros.model';
+import { ModalBairrosComponent } from "../../padronizacao/modal/modal-bairros/modal-bairros.component";
 
 @Component({
   selector: 'app-pontos-coleta',
   standalone: true,
-  imports: [CommonModule, FormsModule, TopbarComponent, SidebarComponent, BairrosComponent],
+  imports: [CommonModule, FormsModule, TopbarComponent, SidebarComponent, BairrosComponent, ModalBairrosComponent],
   templateUrl: './pontos-coleta.component.html',
   styleUrls: ['./pontos-coleta.component.css']
 })
 export class PontosColetaComponent implements OnInit {
+
   pontosColeta: PontoColeta[] = [];
   pontoColetaAtual: PontoColeta = this.getCleanPontoColeta();
   idEditando: number | null = null;
@@ -24,6 +26,8 @@ export class PontosColetaComponent implements OnInit {
 
   opcoesTiposResiduos: string[] = ['Plástico', 'Papel', 'Metal', 'Orgânico'];
   tiposResiduosSelecionados: { [key: string]: boolean } = {};
+  termoBuscaBairros: any;
+  mostrarBairros: boolean = false;
 
   constructor(
     private pontoColetaService: PontoColetaService
@@ -36,7 +40,7 @@ export class PontosColetaComponent implements OnInit {
 
   private getCleanPontoColeta(): PontoColeta {
     return {
-      bairroId: null,
+      bairro: null,
       nome: '',
       responsavel: '',
       telefoneResponsavel: '',
@@ -98,7 +102,7 @@ export class PontosColetaComponent implements OnInit {
       return;
     }
 
-    if (this.pontoColetaAtual.bairroId === null || this.pontoColetaAtual.bairroId === undefined) {
+    if (this.pontoColetaAtual.bairro === null || this.pontoColetaAtual.bairro === undefined) {
       this.mostrarErro("Selecione um bairro.");
       return;
     }
@@ -188,13 +192,29 @@ export class PontosColetaComponent implements OnInit {
     return regexEmail.test(email);
   }
 
-mostrarModalBairros = false;
+  selectedBairros: Bairros | null = null;
+  mostrarModalBairros = false;
 
-abrirModalBairros() {
-  this.mostrarModalBairros = true;
-}
+  abrirBairros(): void {
+    this.mostrarModalBairros = true;
+  }
 
-fecharModalBairros() {
-  this.mostrarModalBairros = false;
-}
+  fecharBairros(): void {
+    this.mostrarModalBairros = false;
+  }
+
+  abrirModalBairros(): void {
+    this.mostrarBairros = true;
+  }
+
+  fecharModalBairros(): void {
+    this.mostrarBairros = false;
+  }
+
+  selecionarBairros(b: Bairros): void {
+    this.selectedBairros = b;
+    this.pontoColetaAtual.bairro = b;
+    this.fecharModalBairros();
+  }
+  
 }
