@@ -26,22 +26,24 @@
     </header>
 
     <section class="modal-body">
-  <input 
-    type="text" 
-    placeholder="Pesquisar bairro..." 
-    [(ngModel)]="termoPesquisa" 
-    (input)="filtrarBairros()" 
-    class="form-control"
-  />
+      <input 
+        type="text" 
+        placeholder="Pesquisar bairro..." 
+        [(ngModel)]="termoPesquisa" 
+        (input)="filtrar()" 
+        class="form-control"
+      />
+  
+      <p *ngIf="carregando">Carregando bairros...</p>
 
-  <ul class="bairro-list">
-    <li *ngFor="let bairro of bairrosFiltrados" (click)="selecionar(bairro)">
-      {{ bairro.nome }}
-    </li>
-    <li *ngIf="bairrosFiltrados.length === 0">
-      Nenhum bairro encontrado.
-    </li>
-  </ul>
-</section>
+      <ul class="modal-list">
+        <li *ngFor="let bairro of bairrosFiltrados" (click)="selecionar(bairro)">
+          {{ bairro.nome }}
+        </li>
+        <li *ngIf="bairros.length === 0" class="nenhum-resultado">
+          Nenhum bairro encontrado.
+        </li>
+      </ul>
+    </section>
   </div>
 </div>

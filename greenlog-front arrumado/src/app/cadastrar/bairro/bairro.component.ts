@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Bairro } from './bairro.model';
 import { BairroService } from './bairro.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-bairro',
@@ -46,31 +46,29 @@ export class BairroComponent implements OnInit{
     });
   }
 
-  salvar(): void {
-    this.limparMensagens();
+  salvar(form: NgForm): void {
+  this.limparMensagens();
 
-    if (!this.validarCampos(this.bairroAtual)) return;
-
-    if (this.idEditando) {
-      this.bairroService.atualizar(this.idEditando, this.bairroAtual).subscribe({
-        next: () => {
-          this.mostrarMensagem('editado');
-          this.resetForm();
-          this.buscarTodos();
-        },
-        error: () => (this.mensagemErro = 'Erro ao atualizar bairro.'),
-      });
-    } else {
-      this.bairroService.salvar(this.bairroAtual).subscribe({
-        next: () => {
-          this.mostrarMensagem('salvo');
-          this.resetForm();
-          this.buscarTodos();
-        },
-        error: () => (this.mensagemErro = 'Erro ao cadastrar bairro.'),
-      });
-    }
+  if (this.idEditando) {
+    this.bairroService.atualizar(this.idEditando, this.bairroAtual).subscribe({
+      next: () => {
+        this.mostrarMensagem('editado');
+        this.resetForm(form);
+        this.buscarTodos();
+      },
+      error: () => (this.mensagemErro = 'Erro ao atualizar bairro.'),
+    });
+  } else {
+    this.bairroService.salvar(this.bairroAtual).subscribe({
+      next: () => {
+        this.mostrarMensagem('salvo');
+        this.resetForm(form);
+        this.buscarTodos();
+      },
+      error: () => (this.mensagemErro = 'Erro ao cadastrar bairro.'),
+    });
   }
+}
 
   excluir(id: number): void {
     const confirmar = confirm('Tem certeza que deseja excluir este bairro?');
@@ -91,21 +89,18 @@ export class BairroComponent implements OnInit{
     this.limparMensagens();
   }
 
-  resetForm(): void {
-    this.bairroAtual = { nome: '' };
-    this.idEditando = null;
-    this.limparMensagens();
+  resetForm(form?: NgForm): void {
+  this.bairroAtual = { nome: '' };
+  this.idEditando = null;
+  this.limparMensagens();
+
+  if (form) {
+    form.resetForm(); // <-- Isso limpa os estados touched, dirty, etc.
   }
+}
 
   limparMensagens(): void {
     this.mensagemErro = '';
   }
 
-  validarCampos(bairroAtual: Bairro): boolean {
-    if (!this.bairroAtual.nome || this.bairroAtual.nome.trim() === '') {
-      this.mensagemErro = 'O nome do bairro é obrigatório.';
-      return false;
-    }
-  return true;
-  } 
 }

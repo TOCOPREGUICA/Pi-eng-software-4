@@ -3,19 +3,24 @@ import { Rua } from './rua.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RuaService } from './rua.service';
+import { ModalBairrosComponent } from "../../padronizador/modal/modal-bairro/modal-bairro.component";
+import { Bairro } from '../bairro/bairro.model';
 
 @Component({
   selector: 'app-rua',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule, ModalBairrosComponent],
   templateUrl: './rua.component.html',
   styleUrl: './rua.component.css'
 })
 export class RuaComponent implements OnInit{
 
   ruas: Rua[] = [];
-  ruaAtual: Rua = {nome: '', origem: {nome: '' }, destino: {nome: '' }, distancia:0}
+  ruaAtual: Rua = {nome: '', origem: { id: 0, nome: '' }, destino: { id: 0, nome: '' }, distancia: 0}
   idEditando: number | null = null;
+
+  modalOrigemVisivel = false;
+  modalDestinoVisivel = false;
 
   mensagemSalvo = false;
   mensagemEditado = false;
@@ -93,7 +98,7 @@ export class RuaComponent implements OnInit{
   }
   
   resetForm(): void {
-    this.ruaAtual = {nome: '', origem: {nome: '' }, destino: {nome: '' }, distancia:0}
+    this.ruaAtual = {nome: '', origem: { id: 0, nome: '' }, destino: { id: 0, nome: '' }, distancia: 0}
     this.idEditando = null;
     this.limparMensagens();
   }
@@ -130,4 +135,31 @@ export class RuaComponent implements OnInit{
     return true;
   }
 
+  abrirModalOrigem(): void {
+    this.modalOrigemVisivel = true;
+    this.fecharModalDestino();
+  }
+
+  fecharModalOrigem(): void {
+    this.modalOrigemVisivel = false;
+  }
+
+  onOrigemSelecionado(event: Bairro): void {
+    this.ruaAtual.origem = event;
+    this.modalOrigemVisivel = false;
+  }
+
+  abrirModalDestino(): void {
+    this.modalDestinoVisivel = true;
+    this.fecharModalOrigem();
+  }
+
+  fecharModalDestino(): void {
+    this.modalDestinoVisivel = false;
+  }
+
+  onDestinoSelecionado(event: Bairro): void {
+    this.ruaAtual.destino = event; 
+    this.modalDestinoVisivel = false;
+  } 
 }

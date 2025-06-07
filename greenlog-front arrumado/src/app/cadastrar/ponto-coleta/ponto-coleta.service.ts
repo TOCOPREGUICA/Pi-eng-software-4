@@ -22,7 +22,7 @@ export class PontoColetaService {
   }
 
   atualizar(id: number, pontoColeta: PontoColeta): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${id}`, pontoColeta);
+    return this.http.put<void>(`${this.apiUrl}/${id}`, this.padronizacao(pontoColeta));
   }
 
   excluir(id: number): Observable<void> {

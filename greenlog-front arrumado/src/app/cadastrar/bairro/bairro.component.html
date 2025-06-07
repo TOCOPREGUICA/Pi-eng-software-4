@@ -9,7 +9,7 @@
     <h2>{{ idEditando ? 'Editar' : 'Cadastro de' }} Bairro</h2>
   </header>
 
-  <form (ngSubmit)="salvar()" #formBairro="ngForm">
+  <form (ngSubmit)="salvar(formBairro)" #formBairro="ngForm">
     <div class="form-group">
       <label for="nome">Nome do Bairro:</label>
       <input 
@@ -19,7 +19,12 @@
         [(ngModel)]="bairroAtual.nome" 
         placeholder="Ex: Setor Bueno"
         required
+        #nomeInput="ngModel"
+        [ngClass]="{ 'invalid-input': nomeInput.invalid && (nomeInput.dirty || nomeInput.touched) }"
       />
+      <div *ngIf="nomeInput.invalid && (nomeInput.dirty || nomeInput.touched)" class="error-message">
+        <small *ngIf="nomeInput.errors?.['required']">Nome do bairro é obrigatório.</small>
+      </div>
     </div>
 
     <div class="button-group">

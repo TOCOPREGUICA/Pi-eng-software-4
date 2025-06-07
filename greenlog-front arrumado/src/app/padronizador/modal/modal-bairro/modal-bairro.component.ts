@@ -19,28 +19,34 @@ export class ModalBairrosComponent implements OnInit {
   bairros: Bairro[] = [];
   termoPesquisa: string = '';
   bairrosFiltrados: Bairro[] = [];
+  carregando = true;
 
   constructor(private bairroService: BairroService) {}
 
   ngOnInit() {
+    this.carregar();
     this.bairrosFiltrados = [...this.bairros]; // inicia com todos
   }
 
-  filtrarBairros(): void {
+  filtrar(): void {
     const termo = this.termoPesquisa.trim().toLowerCase();
     this.bairrosFiltrados = this.bairros.filter(b =>
       b.nome.toLowerCase().includes(termo)
     );
   }
 
-  carregarBairros(): void {
+  carregar(): void {
+    this.carregando = true;
     this.bairroService.listar().subscribe({
       next: (data) => {
-        this.bairros = data;
+        this.bairros = data.sort((a, b) => a.nome.localeCompare(b.nome));
+        this.bairrosFiltrados = [...data];
+        this.carregando = false;
       },
       error: (err) => {
         console.error('Erro ao carregar bairros', err);
         alert('Não foi possível carregar a lista de bairros.');
+        this.carregando = false;
       }
     });
   }
