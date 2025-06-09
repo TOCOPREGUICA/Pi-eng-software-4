@@ -6,12 +6,12 @@ export interface Rua {
   nome: string;
   origem: Bairro;
   destino: Bairro;
-  distancia: number;
+  distancia: number|null;
 }
 
 export interface RuaUPDATE{
   nome: String
-  origemId: Number;
-  destinoId: Number;
+  origem: { id: number | undefined };
+  destino: { id: number | undefined };
   distancia: Number
 }

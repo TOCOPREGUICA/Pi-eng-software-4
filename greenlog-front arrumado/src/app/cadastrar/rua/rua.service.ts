@@ -16,9 +16,11 @@ export class RuaService {
     return this.http.get<Rua[]>(this.apiUrl);
   }
 
-  salvar(rua: Rua): Observable<Rua> {
-    return this.http.post<Rua>(this.apiUrl, this.padronizacao(rua));
-  }
+    salvar(rua: Rua): Observable<RuaUPDATE> { 
+      const dadosParaSalvar = this.padronizacao(rua);
+      console.log(dadosParaSalvar)
+      return this.http.post<RuaUPDATE>(this.apiUrl, dadosParaSalvar);
+    }
 
   atualizar(id: number, rua: Rua): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/${id}`, this.padronizacao(rua));
@@ -31,9 +33,9 @@ export class RuaService {
   padronizacao(rua: Rua): RuaUPDATE {
     return {
       nome: rua.nome,
-      origemId: rua.origem.id!,
-      destinoId: rua.destino.id!,
-      distancia: rua.distancia,
+      origem: { id: rua.origem.id },
+      destino: { id: rua.destino.id },
+      distancia: rua.distancia!,
     };
   }
 }

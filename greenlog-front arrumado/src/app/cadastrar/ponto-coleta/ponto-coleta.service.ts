@@ -16,9 +16,9 @@ export class PontoColetaService {
     return this.http.get<PontoColeta[]>(this.apiUrl);
   }
 
-  salvar(pontoColeta: PontoColeta): Observable<PontoColetaUPDATE> {
-
-    return this.http.post<PontoColeta>(this.apiUrl, this.padronizacao(pontoColeta));
+  salvar(pontoColeta: PontoColeta): Observable<PontoColetaUPDATE> { // Retorna o tipo PontoColeta, que é similar ao ResponseDTO
+    const dadosParaSalvar = this.padronizacao(pontoColeta);
+    return this.http.post<PontoColetaUPDATE>(this.apiUrl, dadosParaSalvar);
   }
 
   atualizar(id: number, pontoColeta: PontoColeta): Observable<void> {
@@ -31,7 +31,7 @@ export class PontoColetaService {
 
   padronizacao(pontoColeta: PontoColeta): PontoColetaUPDATE {
   return {
-    bairroId: pontoColeta.bairro.id,
+    bairro: { id: pontoColeta.bairro.id },
     nome: pontoColeta.nome,
     responsavel: pontoColeta.responsavel,
     telefoneResponsavel: pontoColeta.telefoneResponsavel,

@@ -13,7 +13,7 @@ export interface PontoColeta {
 }
 
 export interface PontoColetaUPDATE{
-  bairroId?: number;
+  bairro: { id: number | undefined },
   nome: string;
   responsavel: string;
   telefoneResponsavel?: string; 
