@@ -1,10 +1,8 @@
 C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenlog-back\src\main\java\greenlong\config\SecurityConfig.java
-C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenlog-back\src\main\java\greenlong\config\UsuarioADM.java
 C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenlog-back\src\main\java\greenlong\config\WebConfig.java
 C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenlog-back\src\main\java\greenlong\controller\BairrosController.java
 C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenlog-back\src\main\java\greenlong\controller\CaminhaoController.java
 C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenlog-back\src\main\java\greenlong\controller\ConexaoController.java
-C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenlog-back\src\main\java\greenlong\controller\DijkstraController.java
 C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenlog-back\src\main\java\greenlong\controller\PontoColetaController.java
 C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenlog-back\src\main\java\greenlong\controller\RotaController.java
 C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenlog-back\src\main\java\greenlong\controller\UsuarioController.java
@@ -20,6 +18,7 @@ C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenl
 C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenlog-back\src\main\java\greenlong\dto\PontoColetaResponseDTO.java
 C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenlog-back\src\main\java\greenlong\dto\RotaRequestDTO.java
 C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenlog-back\src\main\java\greenlong\dto\RotaResponseDTO.java
+C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenlog-back\src\main\java\greenlong\dto\RotaUpdateRequestDTO.java
 C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenlog-back\src\main\java\greenlong\dto\UsuarioCadastroDTO.java
 C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenlog-back\src\main\java\greenlong\dto\UsuarioResponseDTO.java
 C:\Users\Cansei2\Documents\PROJETO_INTEGRADOR_compartilhado\Pi_Para_todos\greenlog-back\src\main\java\greenlong\GreenlogApplication.java

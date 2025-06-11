@@ -104,33 +104,29 @@ export class RuaComponent implements OnInit{
   
   abrirModalOrigem(): void {
     this.modalOrigemVisivel = true;
-    document.body.style.overflow = 'hidden';
-    this.modalDestinoVisivel = false;
+    this.fecharModalDestino();
   }
 
   fecharModalOrigem(): void {
     this.modalOrigemVisivel = false;
-    document.body.style.overflow = ''; 
   }
 
   onOrigemSelecionado(event: Bairro): void {
     this.ruaAtual.origem = event;
-    this.fecharModalOrigem();
+    this.modalOrigemVisivel = false;
   }
 
   abrirModalDestino(): void {
     this.modalDestinoVisivel = true;
-    document.body.style.overflow = 'hidden';
-    this.modalOrigemVisivel = false;
+    this.fecharModalOrigem();
   }
 
   fecharModalDestino(): void {
     this.modalDestinoVisivel = false;
-    document.body.style.overflow = ''; 
   }
 
   onDestinoSelecionado(event: Bairro): void {
     this.ruaAtual.destino = event; 
-    this.fecharModalDestino();
+    this.modalDestinoVisivel = false;
   } 
 }
