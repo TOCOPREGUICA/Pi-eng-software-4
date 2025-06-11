@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Rota } from "./rota.model";
+import { CaminhoDTO, Rota, RotaUPDATE } from "./rota.model";
 import { Injectable } from "@angular/core";
 
 @Injectable({
@@ -8,7 +8,8 @@ import { Injectable } from "@angular/core";
 })
 export class RotaService {
     
-  private apiUrl = 'http://localhost:8080/api/rotas';
+  private readonly apiUrl = 'http://localhost:8080/api/rotas';
+  private readonly caminhoUrl = 'http://localhost:8080/api/caminhos';
 
   constructor(private http: HttpClient) {}
 
@@ -16,8 +17,8 @@ export class RotaService {
     return this.http.get<Rota[]>(this.apiUrl);
   }
 
-  salvar(rota: Rota): Observable<Rota> {
-    return this.http.post<Rota>(this.apiUrl, rota);
+  salvar(rota: Rota): Observable<RotaUPDATE> {
+    return this.http.post<RotaUPDATE>(this.apiUrl, this.padronizacao(rota));
   }
 
   atualizar(id: number, rota: Rota): Observable<void> {
@@ -26,5 +27,18 @@ export class RotaService {
 
   excluir(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  calcularRota(destinoId: number): Observable<CaminhoDTO> {
+    return this.http.get<CaminhoDTO>(`${this.caminhoUrl}/menor-caminho`, {
+      params: { destinoId }
+    });
+  }
+  padronizacao(rota: Rota): RotaUPDATE {
+    return {
+      caminhaoId: { id: rota.caminhao!.id },
+      destinoId: { id: rota.destino!.id },
+      tipoResiduo: rota.tipoResiduo
+    };
   }
 }

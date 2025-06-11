@@ -29,6 +29,7 @@ export class PontoColetaComponent implements OnInit {
 
   idEditando: number | null = null;
   modalBairrosVisivel = false;
+  centro = "Centro";
 
   tiposResiduosSelecionados: { [key: string]: boolean } = {};
   erroResiduos = false;
@@ -169,15 +170,17 @@ export class PontoColetaComponent implements OnInit {
 
   abrirModalBairros(): void {
     this.modalBairrosVisivel = true;
+    document.body.style.overflow = 'hidden';
   }
 
   fecharModalBairros(): void {
     this.modalBairrosVisivel = false;
+    document.body.style.overflow = '';
   }
 
   onBairroSelecionado(event: Bairro): void {
     this.pontoColetaAtual.bairro = { id: event.id, nome: event.nome };
-    this.modalBairrosVisivel = false;
+    this.fecharModalBairros();
   }
 
   nenhumResiduoSelecionado(): boolean {

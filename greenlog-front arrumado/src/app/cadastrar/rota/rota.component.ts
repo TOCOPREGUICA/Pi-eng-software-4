@@ -23,10 +23,12 @@ export class RotaComponent implements OnInit{
     caminhao: null,
     destino: null,
     tipoResiduo: '',
+    arestasPercorridas: [],
     bairrosPercorridos: [],
     distanciaTotal:0
   }
   idEditando: number | null = null;
+  centro = "Centro";
 
   mensagem: { tipo: 'salvo' | 'editado' | 'excluido' | 'erro' | null; texto: string } = {
     tipo: null,
@@ -68,6 +70,7 @@ export class RotaComponent implements OnInit{
       caminhao: null,
       destino: null,
       tipoResiduo: '',
+      arestasPercorridas: [],
       bairrosPercorridos: [],
       distanciaTotal:0
     };
@@ -80,30 +83,34 @@ export class RotaComponent implements OnInit{
 
   abrirModalBairros(){
     this.modalBairrosVisivel = true;
-    this.fecharModalCaminhoes();
+    document.body.style.overflow = 'hidden'; 
+    this.modalCaminhoesVisivel = false;
   }
 
   fecharModalBairros(){
     this.modalBairrosVisivel = false;
+    document.body.style.overflow = '';
   }
   
   onBairroSelecionado(event: Bairro): void {
     this.rotaAtual.destino = event;
-    this.modalBairrosVisivel = false;
+    this.fecharModalBairros();
   }
 
   abrirModalCaminhoes(){
     this.modalCaminhoesVisivel = true;
-    this.fecharModalBairros();
+    document.body.style.overflow = 'hidden';
+    this.modalBairrosVisivel = false;
   }
 
   fecharModalCaminhoes(){
     this.modalCaminhoesVisivel = false;
+    document.body.style.overflow = '';
   }
 
   onCaminhaoSelecionado(caminhao : Caminhao){
     this.rotaAtual.caminhao = caminhao;
-    this.modalCaminhoesVisivel = false;
+    this.fecharModalCaminhoes();
   }
 
   salvar(form: NgForm): void {
@@ -141,4 +148,23 @@ export class RotaComponent implements OnInit{
       });
     }
   }
+
+  calcularRota(): void {
+  const destinoId = this.rotaAtual.destino?.id;
+
+  if (!destinoId) {
+    this.mostrarMensagem('erro', 'Selecione um destino antes de calcular a rota.');
+    return;
+  }
+  
+  this.rotaService.calcularRota(destinoId).subscribe({
+    next: (res) => {
+      console.log(res)
+      this.rotaAtual.bairrosPercorridos = res.bairros.map(b => b.nome);
+      this.rotaAtual.arestasPercorridas = res.arestas;
+      this.rotaAtual.distanciaTotal = res.distanciaTotal;
+    },
+    error: () => this.mostrarMensagem('erro', 'Erro ao calcular rota.'),
+  });
+}
 }
